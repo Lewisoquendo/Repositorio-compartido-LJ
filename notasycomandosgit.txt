@@ -1,2 +1,27 @@
-algunas acotaciones y comandos en git:
-
+algunas acotaciones y comandos en git bash:
+ls --> muestra los archivos y carpetas en la ubicacion actual
+pwd -->Indica la ubicacion actual del directorio
+cd nombre --> cambia de ubicacion entre las distintas carpetas
+cd .. --> Devuelve la ubicacion actual a la carpeta anterior a la actual
+mkdir nombre --> Crea una carpeta de nombre 'nombre'
+git init -->inicializa un repositorio
+code . --> ordena al editor (Vscode) abrir la carpeta actual
+git status --> muestra el estatus actual de los archivos 
+git add nombrearchivo --> agrega los cambios al stage
+git commit -m "texto" --> Compromete los cambios y ahora estan listo para subirlos al github
+git rm nombrearchivo -->Remueve y sube al stage el archivo
+git restore --stage nombre archivo -->elimina el archivo del apartado de stage
+git restore nombrearchivo -->recupera el archivo
+git mv nombre1archivo nombre2archivo -->Cambia el nomre del archivo y lo agrega automaticamente al stage
+git status -s --> indica el estatus del los archivos de manera mas resumida y sencilla
+git diff -->Otra manera de ver los cambios que se han  realizado
+git log --oneline -->Muestra el historial de los commits
+git branch -->indica la rama en la que estamos trabajando
+git checkout -b nombrerama -->Crea una nueva rama
+cat nombrearchivo -->muestra el contenido del archivo
+git merge ramab -->estando en la rama principal, si se ejecuta este codigo, se extraen los archivos en la ramab a la rama principal
+git push -u origin nombreramaprincipal -->sube los archivos al repositorio en github
+git remote add origin nombreruta -->Añade un repositorio de github para subir y bajar archivos de la web
+git clone rutarepositorio --> clona el repositorio onile de github en el repositorio local
+git remote -v -->Muestra mas informacion sobre el repositorio local
+git push -->envia nuestros cambios appara actualizar el repositorio remoto en github
