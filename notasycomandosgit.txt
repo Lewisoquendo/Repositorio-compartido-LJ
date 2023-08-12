@@ -1,0 +1,2 @@
+algunas acotaciones y comandos en git:
+
