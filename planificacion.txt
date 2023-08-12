@@ -1,0 +1,41 @@
+ Preparacion para Computacion II.
+Objetivos Principales:
+*Aprender los lenguajes de programacion:
+	*JavaScript
+	*HTML
+	*CSS
+Objetivos secundarios opcionales (si el tiempo alcanza):
+*Crear una pagina web (Aunque posiblemente lo aprenderemos paralelamente a los tutoriales)
+
+Recursos de aprendizaje a utilizar:
+Tutoriales en Yt:
+	Nota1: Personalmente me gustan los videos del canal 1, ya que ahi, usan el editor de texto Vs que ya conocemos, y se nos hara un poco mas familiar
+	Nota2: Un posible inicio seria ver el tutorial extra que sale al final de GIT, tengo la intencion de crearnos uno para porder compartir nuestro trabajo y sea mas facil el trabajo en equipo.
+	HTML:
+	Canal 1: https://www.youtube.com/watch?v=MJkdaVFHrto
+	Canal 2: https://youtu.be/kN1XP-Bef7w
+	Canal 3: (Html + Css) https://youtu.be/XqFR2lqBYPs
+	CSS:
+	Canal 1: https://www.youtube.com/watch?v=wZniZEbPAzk
+	Canal 2: https://youtu.be/OWKXEJN67FE
+	JavaScript:
+	Canal 2: https://youtu.be/z95mZVUcJ-E
+	Canal 3: https://www.youtube.com/watch?v=ivdTnPl1ND0
+	
+	EXTRA - CURSO DE GIT:
+	Canal 1: https://www.youtube.com/watch?v=VdGzPZ31ts8
+	Canal 3: https://youtu.be/mBYSUUnMt9M
+
+	EXTRA - BASES DE DATOS:
+	SQL: 
+		Canal 1: https://youtu.be/uUdKAYl-F7g
+		Canal 2: https://youtu.be/DFg1V-rO6Pg
+
+Canal 1 = Hola Mundo
+Canal 2 = Soy Dalto
+Canal 3 = FreeCodeCamp Español (Viene con Ejercicios y proyectos la mayoria de los videos)
+
+Aplicaciones de Play Store:
+	MIMO: (es algo asi como un duolingo pero de programacion)
+	https://play.google.com/store/apps/details?id=com.getmimo
+
