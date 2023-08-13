@@ -23,7 +23,7 @@ git merge ramab -->estando en la rama principal, si se ejecuta este codigo, se e
 git push -u origin nombreramaprincipal -->sube los archivos al repositorio en github
 git remote add origin nombreruta -->Añade un repositorio de github para subir y bajar archivos de la web
 git clone rutarepositorio --> clona el repositorio onile de github en el repositorio local
-git remote -v -->Muestra mas informacion sobre el repositorio local
-git push -->envia nuestros cambios appara actualizar el repositorio remoto en github
+git remote -v -->Muestra mas informacion sobre el repositorio remoto
+git push origin nombrerama-->envia nuestros cambios appara actualizar el repositorio remoto en github
 git pull origin nombrerama --> Descarga el contenido de un repositorio remoto e inmediatamente los combina con nuestro repositorio local en la rama seleccionada
 git fetch origin -->Verifica si se hicieron cambios en el repositorio remoto SIN actualizarlos o combinarlos con el repositorio local
