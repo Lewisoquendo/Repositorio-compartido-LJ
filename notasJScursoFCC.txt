@@ -1,0 +1,219 @@
+Declarando variables:
+-Al declarar variables se utilizan 3 metodos, el mas simple es 'var', con el asignamos el nombre a la variable
+-el segundo es 'let' con este declaramos la variable que no puedes ser declarado nuevamente, de lo contrario arrojara un error. Ademas si declaramos una 
+	variable con let dentro de algun ciclo for-while o condicionales if/else, dicha variable no existira fuera del ciclo, cosa que no sucederia con var.
+-el tercer metodo es con 'const' este tiene la misma aplicacion que el metodo 'let' con el plus de que al declarar una variable con 'const'
+	y asignarle un valor, este no podra ser reasignado, es decir, como su nombre lo indica, el valor de la variable permanecera siempre
+	constante con este metodo, de lo contrario arrojara un error llamado 'FAV_PET'.
+	Los nombres de las variables declaradas con const, por convencion se escriben en mayúsculas.
+
+Metodos aplicables a listas:
+-el metodo '.push(elem)' aplicable a arrays, añadir un elemento al final del array,
+-el metodo '.pop()' aplicable a arrays funcional exactamente igual a como se usa en python
+-el metodo '.shift()' aplicable a arrays elimina el primer elemento del array
+-el metodo '.unshift(elem)' aplicable a arrays, añade el elemento al principio del array (index = 0)
+-JSON.stringify(miArreglo), aplicable a arrays, muestra el arreglo en una presentacion mas descente
+
+otros:
+--->Usa sintaxis de clases para definir una función constructora
+	ES6 proporciona una nueva sintaxis para crear objetos, usando la palabra clave class.
+	En ES5, se puede crear un objeto definiendo una función constructor y usando la palabra clave new para instanciar el objeto.
+	En ES6, una declaración class tiene un método constructor que se invoca con la palabra clave new. Si el método constructor no se define 
+	explícitamente, entonces se define implícitamente sin argumentos.
+	// Explicit constructor
+	class SpaceShuttle {
+	  constructor(targetPlanet) {
+	    this.targetPlanet = targetPlanet;
+	  }
+	  takeOff() {
+	    console.log("To " + this.targetPlanet + "!");
+	  }
+	}
+	// Implicit constructor 
+	class Rocket {
+	  launch() {
+	    console.log("To the moon!");
+	  }
+	}
+	const zeus = new SpaceShuttle('Jupiter');
+	// prints To Jupiter! in console
+	zeus.takeOff();
+	const atlas = new Rocket();
+	// prints To the moon! in console
+	atlas.launch();
+	Debe tenerse en cuenta que la palabra clave class declara una nueva función, a la cual se añade un constructor. Este constructor se invoca cuando new es llamado para crear un nuevo objeto.
+	Nota: UpperCamelCase debe ser utilizado por convención para nombres de clase en ES6, como SpaceShuttle usado anteriormente.
+	El método constructor es un método especial para crear e inicializar un objeto creado con una clase. 
+
+--->Utiliza getters (accesores) y setters (mutadores) para controlar el acceso a un objeto
+Puedes obtener valores de un objeto y establecer el valor de una propiedad dentro de un objeto.
+Estas operaciones clásicamente se llaman getters y setters.
+Las funciones getter están destinadas a simplemente devolver (get) el valor de la variable privada de un objeto al usuario sin que el usuario acceda directamente a la variable privada.
+Las funciones setter están destinadas a modificar (set) el valor de la variable privada de un objeto basado en el valor pasado a la función setter. Este cambio podría implicar cálculos, o incluso sobrescribir completamente el valor anterior.
+class Book {
+  constructor(author) {
+    this._author = author;
+  }
+  // getter
+  get writer() {
+    return this._author;
+  }
+  // setter
+  set writer(updatedAuthor) {
+    this._author = updatedAuthor;
+  }
+}
+const novel = new Book('anonymous');
+console.log(novel.writer);
+novel.writer = 'newAuthor';
+console.log(novel.writer);
+La consola mostrará las cadenas anonymous y newAuthor.
+
+--->Crea un módulo para scripts
+En sus inicios, JavaScript comenzó desempeñando un pequeño rol, cuando la web estaba mayormente hecha en HTML. Hoy Javascript se ha vuelto gigante y algunos sitios web están casi completamente construidos con JavaScript. Con la finalidad de hacer JavaScript más modular, limpio y mantenible, ES6 introdujo una manera de compartir código fácilmente entre archivos JavaScript. Esto implica exportar partes de un archivo para usar en uno o más archivos, e importar las partes que necesitas donde las necesites. Para aprovechar esta funcionalidad, necesitas crear un script en tu documento HTML con un type de module. A continuación, te presentamos un ejemplo:
+<script type="module" src="filename.js"></script>
+Un script que utilice este module ahora podrá utilizar las caraterísticas import y export, sobre las que aprenderás en los próximos desafíos.
+
+--->Para recurrir a una propiedad de un objeto, estando dentro de otra propiedad del mismo objeto utilizamos el argumento 'this' para referirnos a este mismo
+	objeto que estamos trabajando, f x-ample:
+const person = {
+  name: "Taylor",
+  sayHello: function() {
+    return `Hello! My name is ${this.name}.`;
+  }
+};
+	IMPORTANTE!: ademas, Con ES6, puedes eliminar la palabra clave function y los dos puntos al definir funciones en objetos. Aquí hay un ejemplo de 
+	esta sintaxis:
+const person = {
+  name: "Taylor",
+  sayHello() {
+    return `Hello! My name is ${this.name}.`;
+  }
+};
+
+--->Cumpleta una promesa con "resolve" y "reject"
+Una promesa tiene tres estados: pending, fulfilled, y rejected. La promesa que creaste en el último desafío está atascada en el estado pending porque no añadiste una forma de completar la promesa. Los parámetros resolve y reject enviados a "promise" como argumentos, son utilizados para hacer lo siguiente. resolve se utiliza cuando quieres que tu promesa tenga éxito, y reject se usa cuando quieres que falle. Estos son métodos que toman un argumento, como se ve a continuación.
+const myPromise = new Promise((resolve, reject) => {
+  if(condition here) {
+    resolve("Promise was fulfilled");
+  } else {
+    reject("Promise was rejected");
+  }
+});
+Las promesas son muy útiles, cuando tu tienes un proceso que toma una cantidad de tiempo desconocida en tu código (algo asíncrono por ejemplo), a menudo una petición de servidor. Cuando tu haces una petición a un servidor, toma algo de tiempo, después de que termina, normalmente quieres hacer algo con la respuesta del servidor. Esto se puede lograr utilizando el método then. El método then, se ejecuta inmediatamente después de que tu promesa se cumple con resolve. A continuación un ejemplo:
+myPromise.then(result => {
+
+});
+result viene con el argumento proporcionado al método resolve.
+catch es el método utilizado cuando tu promesa ha sido rechazada. Se ejecuta inmediatamente, después de que se llama al método reject de una promesa. A continuación la sintaxis:
+
+myPromise.catch(error => {
+
+});
+error es el argumento pasado al método reject.
+
+
+--->Plantillas literales (equivalentes a los f-strings de python):
+	Las plantillas literales te permiten crear cadenas multilínea y usar características de interpolación, para crearlas.
+	Fíjese en el código debajo:(las comillas invertidas se hacen con (alt_Gr + })
+	const person = {
+ 	 name: "Zodiac Hasbro",
+	  age: 56
+	};
+	const greeting = `Hello, my name is ${person.name}`
+	I am ${person.age} years old.`;
+	console.log(greeting);
+	La consola mostrará las cadenas Hello, my name is Zodiac Hasbro! y I am 56 years old..
+
+--->En JavaScript, puedes determinar el tipo de una variable o un valor con el operador typeof
+	typeof 3 devuelve la cadena number y typeof '3' devuelve la cadena string
+---> Un uso extra que se le puede dar al operador 'or'(||) es el de devolver el valor a la izquierda si existe ( si no es undefined), o devolver el de la
+derecha en caso contrario, for example: return value1 || value2, esto puede reemplazar un if-else del tipo que se usa para verificar la existencia o no
+de algo y responder conforme a eso.
+-Generar un numero aleatorio dado un rango de valores minimo y maximo:
+	Math.floor(Math.random()*(max - min + 1) + min);
+-Funciones felcha:
+	En JavaScript, usualmente no necesitas nombrar tus funciones, especialmente cuando se pasa una función como argumento a otra función. 
+	En su lugar, creamos funciones inline (en línea). No necesitamos nombrar estas funciones porque no las reutilizamos en otro lugar.
+	ES6 nos proporciona el azúcar sintáctico, para no tener que escribir funciones anónimas de este modo. 
+	En su lugar, puedes usar la sintaxis de función flecha:
+	const myFunc = () => {
+ 	 const myVar = "value";
+ 	 return myVar;
+	}
+	Cuando la función no posee cuerpo y sólo tiene un valor de retorno, la sintaxis de "función de flecha", 
+	te permite omitir la palabra clave return, así como los corchetes que rodean el código. Esto ayuda a simplificar las funciones más
+	 pequeñas en sentencias de una sola línea:
+
+	const myFunc = () => "value";
+--->Funciones con numero de argumentos desconocidos:
+	para declarar funciones que puedan recibir un numero n de argumentos, debemos usar el paramtro rest, escribiendo '...args' como unico parametro al
+	declarar la funcion, rest tomara los parametros en ...args y hara un arreglo con ellos, por lo cual podremos acceder a los parametros recibidos,
+	por medio de notacion de arreglos y sus respectivas funciones y metodos
+--->Operador de propagacion:
+	ES6 introduce el operador de propagación, que nos permite expandir arreglos 
+	y otras expresiones en lugares donde se esperan múltiples parámetros o elementos.
+	El siguiente código ES5 usa apply() para calcular el valor máximo en un arreglo:
+
+	var arr = [6, 89, 3, 45];
+	var maximus = Math.max.apply(null, arr);
+	maximus tendrá un valor de 89.
+	Tuvimos que usar Math.max.apply(null, arr) porque Math.max(arr) devuelve NaN. Math.max() espera argumentos separados por comas, 
+	pero no un arreglo. El operador de propagación hace que esta sintaxis sea más fácil de leer y mantener.
+	const arr = [6, 89, 3, 45];
+	const maximus = Math.max(...arr);
+	maximus tendría un valor de 89.
+
+
+--->Una sentencia switch compara el valor para las sentencias case las cuales definen varios posibles valores.
+Los valores en las sentencias case se prueban con igualdad estricta (===).
+cada sentencia case debe terminar con un break, de lo contrario se seguiran evaluando las demas sentencias
+Si la sentencia break es omitida en un caso (case) de una sentencia switch, las siguientes sentencias case serán ejecutadas hasta encontrar un break.
+Si tienes múltiples entradas con la misma salida, puedes representarlas en una sentencia switch como esta:
+
+let result = "";
+switch (val) {
+  case 1:
+  case 2:
+  case 3:
+    result = "1, 2, or 3";
+    break;
+  case 4:
+    result = "4 alone";
+}
+
+Objetos:
+--->Los objetos son parecidos a los arrays, podemos agregarles propiedades para luego usarlas
+	o modificarlas, se deben declarar con const, para accder a alguna propiedad usamos notacion de puntos
+	o notacion de corchetes, en los corchetes las propiedades deben ir con comillas pero tambien podemos
+	introducirles una variables cuyo valor sea un string con el nombre de la propiedad del objeto que queremos acceder
+-Para borrar una propiedad de un objeto debemos usar el comando delete seguido del objeto con su propiedad a eliminar: 'object.propiedad'
+-Para verificar si una propiedad de un objeto dado existe o no, puedes utilizar el método
+	 .hasOwnProperty(). someObject.hasOwnProperty(someProperty) devuelve true o false, dependiendo
+	 si la propiedad es encontrada en el objeto o no.
+
+--->Bucle do...while:
+El siguiente tipo de bucle que aprenderás se llama bucle do...while. Se llama bucle do...while porque primero hace (do) una pasada por el 
+código dentro del bucle sin importar qué, y luego continua ejecutando el bucle mientras (while) la condición especificada sea verdadera (true).
+Esencialmente, un bucle do...while asegura que el código dentro del bucle se ejecute al menos una vez.
+
+--->operador condicional ternario:
+Tiene la estructura a ? b: c, dnd a es una condicion a evaluar, si a es true, se ejecutara la accion dada en b, si es false se ejecutara
+	la acccion en c
+
+--->Algunas funciones y metodos de JS:
+-Math.random()-->Genera un nuemero aleatorio entre 0 (inclusive) y 1 (no inclusive)
+	Esta fórmula da un número entero aleatorio en el rango desde min hasta max. 
+	Tómate un momento para leerla e intenta entender lo que este código está haciendo:
+	Math.floor(Math.random() * (max - min + 1)) + min
+-Math.floor(num)-->Redondea el decimal 'num' al entero inferior mas cercano; 9.2-->9; 9.9-->9
+-parseInt() analiza una cadena y devuelve un entero. A continuación, te presentamos un ejemplo:
+	const a = parseInt("007");
+	La función anterior convierte la cadena 007 al entero 7. Si el primer carácter de la cadena 
+	no puede ser convertido en un número, entonces devuelve NaN.
+	La función parseInt() analiza una cadena y devuelve un entero. Recibe un segundo argumento para 
+	la base (radix), que especifica la base del número representado en la cadena. La base (radix) puede ser un número entero entre 2 y 36.
+	es decir que la funcion puede convertir numeros de base n en formato str a un entero. como por ej pasar de un numero binario
+	(de base 2) a un numero entero
+-Object.freeze(objeto)--->Previene la modificación de propiedades atributos y valores existentes, y previene la adicion de nuevas propiedades
+

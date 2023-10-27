@@ -1,0 +1,46 @@
+<script>
+	//Introduciendo a las funciones en JS
+	function mostrar_mensaje() {
+		console.log("Hola Mundo");
+	}
+	mostrar_mensaje();
+	function sumar(a, b) {
+		var suma = a + b;
+		console.log("El resultado de sumar " + a +" + " +b + " es: " + suma);
+	}
+	sumar(1,3)
+	function concatenar_tres_cadenas(cad1, cad2, cad3){
+		console.log(cad1 + ' ' + cad2 + ' ' + cad3);
+	}
+	concatenar_tres_cadenas('Estoy',"Aprendiendo", "A programar")
+
+	//Variables locales y Globales:
+	/* Las variables globales, son aquellas que
+	pueden ser utilizadas y modificadas en cualquier parte del programa
+	Las variables locales, solo estan definidas dentro de la funcion donde estan siendo llamadas
+	fuera de la dicha funcion, no se puede acceder a la variable local
+	*/
+	
+	//Retornando valores en las funciones:
+	function producto(a,b) {
+		return a*b
+	}
+	console.log(producto(2,4));
+
+	//Proximo en la fila
+	/* Define una funcion proximoEnLaFila que tome un arreglo 
+	(arreglo) y un numero (elemento) como argumentos. Agrega
+	el numero al final del arreglo y luego elimina el primer
+	elemento del arreglo. La funcion proximoEnLaFila debe retornar
+	el elemento que fue removido*/
+	function proximoEnLaFila(arreglo, elemento) {
+		arreglo.push(elemento); //Agregando el elemento al final del arreglo
+		return arreglo.shift();
+
+	}
+	var miArreglo = [1,2,3,4,5];
+	console.log("Antes; " + JSON.stringify(miArreglo))//mostrando el arreglo inicial de manera mas presentable
+	console.log(proximoEnLaFila(miArreglo, 6));
+	console.log("Despues; " + JSON.stringify(miArreglo))//mostrando el arreglo inicial de manera mas presentable
+
+</script>

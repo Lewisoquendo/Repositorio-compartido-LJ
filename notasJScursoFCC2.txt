@@ -1,0 +1,174 @@
+--->Usa el método "test"
+Las expresiones regulares se utilizan en lenguajes de programación para coincidir con partes de cadenas. Creas patrones para ayudarte a hacer esa coincidencia.
+
+Si quieres encontrar la palabra the en la cadena The dog chased the cat, puedes utilizar la siguiente expresión regular: /the/. Ten en cuenta que las comillas no son requeridas dentro de la expresión regular.
+
+JavaScript tiene múltiples formas de usar expresiones regulares. Una forma de probar una expresión regular es usando el método .test(). El método .test() toma la expresión regular, la aplica a una cadena (que se coloca dentro de los paréntesis), y devuelve true o false si tu patrón encuentra algo o no.
+
+let testStr = "freeCodeCamp";
+let testRegex = /Code/;
+testRegex.test(testStr);
+El método test aquí devuelve true.
+Esto es muy potente al buscar cadenas individuales, pero está limitado a un solo patrón. Puedes buscar múltiples patrones usando el operador alternation o OR: |.
+Este operador coincide con los patrones antes o después de él. Por ejemplo, si deseas coincidir con las cadenas yes o no, la expresión regular que quieres es /yes|no/.
+También puedes buscar más de dos patrones. Puedes hacer esto añadiendo más patrones con más operadores OR separándolos, como /yes|no|maybe/.
+Esto es muy potente al buscar cadenas individuales, pero está limitado a un solo patrón. Puedes buscar múltiples patrones usando el operador alternation o OR: |.
+Este operador coincide con los patrones antes o después de él. Por ejemplo, si deseas coincidir con las cadenas yes o no, la expresión regular que quieres es /yes|no/.
+También puedes buscar más de dos patrones. Puedes hacer esto añadiendo más patrones con más operadores OR separándolos, como /yes|no|maybe/.
+
+-->Extrae coincidencias
+Hasta ahora, sólo has estado comprobando si un patrón existe o no dentro de una cadena. También puedes extraer las coincidencias encontradas con el método .match().
+
+Para utilizar el método .match(), aplica el método a una cadena y pasa la expresión regular dentro de los paréntesis.
+Este es un ejemplo:
+"Hello, World!".match(/Hello/);
+let ourStr = "Regular expressions";
+let ourRegex = /expressions/;
+ourStr.match(ourRegex);
+Aquí el primer match devolverá ["Hello"] y el segundo devolverá ["expressions"].
+Ten en cuenta que la sintaxis .match es lo "opuesto" al método .test que has estado utilizando hasta ahora:
+'string'.match(/regex/);
+/regex/.test('string');
+Para buscar o extraer un patrón más de una vez, puedes utilizar la bandera g.
+let repeatRegex = /Repeat/g;
+testStr.match(repeatRegex);
+Y aquí match devuelve el valor ["Repeat", "Repeat", "Repeat"]
+
+El carácter de comodín . coincidirá con cualquier carácter único. El comodín también es llamado dot y period. Puedes utilizar el carácter de comodín como cualquier otro carácter en la expresión regular. Por ejemplo, si quieres hacer coincidir hug, huh, hut, y hum, puedes usar la la expresión regular /hu./ para que coincida con las cuatro palabras.
+Puedes buscar un patrón literal con cierta flexibilidad utilizando las clases de caracteres. Las clases de caracteres te permiten definir un grupo de caracteres que deseas coincidir colocándolos dentro de corchetes ([ y ]).
+Por ejemplo, si quieres hacer coincidir bag, big, y bug pero no bog. Puedes crear la expresión regular /b[aiu]g/ para hacer esto. [aiu] es la clase de caracteres que solo coincidirá con los caracteres a, i, o u.
+
+Dentro de un conjunto de caracteres, puedes definir un rango de caracteres a coincidir usando un carácter de guion: -.
+Por ejemplo, para hacer coincidir las letras minúsculas desde la a a la e usarías [a-e].
+let catStr = "cat";
+let batStr = "bat";
+let matStr = "mat";
+let bgRegex = /[a-e]at/;
+catStr.match(bgRegex);
+batStr.match(bgRegex);
+matStr.match(bgRegex);
+En orden, las tres llamadas a match devolverán los valores ["cat"], ["bat"] y null.
+
+Por ejemplo, /[0-5]/ coincide con cualquier número entre 0 y 5, incluyendo 0 y 5.
+Además, es posible combinar un rango de letras y números en un único conjunto de caracteres.
+let jennyStr = "Jenny8675309";
+let myRegex = /[a-z0-9]/ig;
+jennyStr.match(myRegex);
+
+Para crear un conjunto de caracteres negados colocas un carácter de intercalación (^) después del corchete de apertura y antes de los caracteres que no quieres coincidir.
+Por ejemplo, /[^aeiou]/gi coincide con todos los caracteres que no son una vocal. Ten en cuenta que caracteres como ., !, [, @, / y el espacio en blanco coinciden; el conjunto de caracteres de vocal negados sólo excluye los caracteres de vocal.
+
+A veces, es necesario coincidir con un carácter (o grupo de caracteres) que aparezca una o más veces seguidas. Esto significa que aparece al menos una vez, y puede repetirse.
+Puedes usar el carácter + para comprobar si es así. Recuerda, el carácter o patrón debe estar presente consecutivamente. Es decir, el carácter tiene que repetirse uno tras otro.
+Por ejemplo, /a+/g encontraría una coincidencia en abc y regresaría ["a"]. Debido al +, también encontraría una sola coincidencia en aabc y regresaría ["aa"].
+Si en su lugar estuvieras comprobando la cadena abab, se encontrarían dos coincidencias y regresaría ["a", "a"] porque los caracteres a no están en fila; hay una b entre ellos. Finalmente, dado que no hay una a en la cadena bcd, no se encontraría una coincidencia.
+
+También hay una opción para hacer coincidir caracteres que aparecen cero o más veces.
+El carácter que hace esto es el asterisco o la estrella: *.
+let soccerWord = "gooooooooal!";
+let gPhrase = "gut feeling";
+let oPhrase = "over the moon";
+let goRegex = /go*/;
+soccerWord.match(goRegex);
+gPhrase.match(goRegex);
+oPhrase.match(goRegex);
+En orden, los tres match devolverán los valores ["goooooooo"], ["g"], y null.
+
+--->Encuentra caracteres con una coincidencia perezosa
+En las expresiones regulares, una coincidencia codiciosa encuentra la parte más larga posible de una cadena que se ajusta al patrón de la expresión regular y la devuelve como una coincidencia. La alternativa es llamada coincidencia perezosa, la cual encuentra la parte más pequeña posible de la cadena que satisface el patrón de la expresión regular.
+Puedes aplicar la expresión regular /t[a-z]*i/ a la cadena "titanic". Esta expresión regular es básicamente un patrón que comienza con t, termina con i, y tiene algunas letras intermedias.
+Las expresiones regulares son por defecto codiciosas, por lo que la coincidencia devolvería ["titani"]. Encuentra la sub-cadena más grande posible que se ajusta al patrón.
+Sin embargo, puedes usar el carácter ? para cambiarla a una coincidencia perezosa. "titanic" al coincidir con la expresión regular ajustada de /t[a-z]*?i/ devuelve ["ti"].
+
+--->Haz coincidir patrones de cadena de inicio
+En un desafío anterior, usaste el carácter caret (^) dentro de un conjunto de caracteres para crear un conjunto de caracteres en la forma [^thingsThatWillNotBeMatched]. Fuera de un conjunto de caracteres, el caret es utilizado para buscar patrones al principio de las cadenas.
+let firstString = "Ricky is first and can be found.";
+let firstRegex = /^Ricky/;
+firstRegex.test(firstString);
+let notFirst = "You can't find Ricky now.";
+firstRegex.test(notFirst);
+La primera llamada test devolverá true, mientras que la segunda retornara false.
+
+--->Haz coincidir patrones de cadena final
+En el último desafío, aprendiste a usar el carácter de intercalación para buscar patrones al inicio de las cadenas. También hay una manera de buscar patrones al final de las cadenas.
+Puedes buscar el final de las cadenas usando el carácter del signo de dólar $ al final de la expresión regular.
+
+--->Coincide todas las letras y números
+Usando clases de caracteres, pudiste buscar todas las letras del alfabeto con [a-z]. Este tipo de clase de caracteres es tan común que existe un atajo para él, aunque también incluye algunos caracteres adicionales.
+La clase de caracteres más cercana en JavaScript para coincidir con el alfabeto es \w. Este atajo equivale a [A-Za-z0-9_]. Esta clase de caracteres coincide con letras mayúsculas y minúsculas más números. Ten en cuenta que esta clase de caracteres también incluye el carácter de guión bajo (_).
+Has aprendido que puedes usar un atajo para emparejar alfanuméricos [A-Za-z0-9_] usando \w. Un patrón natural que tal vez quieras buscar es lo contrario a la alfanumérica.
+Puedes buscar lo contrario de \w con \W. Ten en cuenta, el patrón contrario usa letra mayúscula. Este atajo es lo mismo que [^A-Za-z0-9_].
+
+--->Coincide con todos los números
+Has aprendido atajos para patrones de cadenas comunes como los alfanuméricos. Otro patrón común es buscar solo dígitos o números.
+El atajo para buscar caracteres de dígitos es \d, con una d minúscula. Esto es igual a la clase de caracteres [0-9], la cual busca un solo carácter de cualquier número entre cero y nueve.
+El último desafío mostró cómo buscar dígitos usando el atajo \d con una d minúscula. También puedes buscar caracteres que no sean dígitos usando un atajo similar que utilice una D mayúscula en su lugar.
+
+--->Haz coincidir espacios en blanco
+Los desafíos por el momento han cubierto las letras que coinciden con el alfabeto y los números. También puedes hacer que coincidan los espacios en blanco o los espacios entre las letras.
+Puedes buscar los espacios en blanco usando \s que es una s minúscula. Este patrón no solo coincide con los espacios en blanco, también con los caracteres de retorno de carro, tabulaciones, alimentación de formulario y saltos de línea. Puedes pensar que es similar a las clases de caracteres [ \r\t\f\n\v].Busca caracteres que no sean espacios en blanco usando \S, la cual es una s mayúscula
+
+--->Comprueba todos o ninguno
+A veces los patrones que quieres buscar pueden tener partes que pueden o no existir. Sin embargo, podría ser importante buscarlos de todos maneras.
+Puedes especificar la posible existencia de un elemento con un signo de interrogación, ?. Esto comprueba cero o uno de los elementos precedentes. Puedes pensar que este símbolo dice que el elemento anterior es opcional.
+
+--->Lookahead positivo y negativo
+Un lookahead positivo buscará para asegurarse de que el elemento en el patrón de búsqueda este allí, pero en realidad no lo coincidirá. Un lookahead positivo se usa como (?=...) donde el ... es la parte requerida que no coincide.
+
+Por otro lado, un lookahead negativo buscará para asegurarse de que el elemento en el patrón de búsqueda no este allí. Un lookahead negativo se usa como (?!...) donde el ... es el patrón que no quieres que esté allí. El resto del patrón se devuelve si la parte de lookahead negativo no está presente.
+Un lookahead positivo buscará para asegurarse de que el elemento en el patrón de búsqueda este allí, pero en realidad no lo coincidirá. Un lookahead positivo se usa como (?=...) donde el ... es la parte requerida que no coincide.
+
+Por otro lado, un lookahead negativo buscará para asegurarse de que el elemento en el patrón de búsqueda no este allí. Un lookahead negativo se usa como (?!...) donde el ... es el patrón que no quieres que esté allí. El resto del patrón se devuelve si la parte de lookahead negativo no está presente.
+
+Los lookaheads son un poco confusos, pero algunos ejemplos ayudarán.
+
+let quit = "qu";
+let noquit = "qt";
+let quRegex= /q(?=u)/;
+let qRegex = /q(?!u)/;
+quit.match(quRegex);
+noquit.match(qRegex);
+Ambas llamadas a match devolverán ["q"].
+
+Un uso más práctico de lookaheads es comprobar dos o más patrones en una cadena. Aquí hay un verificador de contraseñas (ingenuamente) simple que busca entre 3 y 6 caracteres y al menos un número:
+
+let password = "abc123";
+let checkPass = /(?=\w{3,6})(?=\D*\d)/;
+checkPass.test(password);
+
+--->Reutiliza patrones usando grupos de captura
+Digamos que quieres hacer coincidir una palabra que aparece varias veces como la siguiente.
+
+let repeatStr = "row row row your boat";
+Podrías usar /row row row/, pero ¿qué pasa si no conoces la palabra específica que se repite? Los grupos de captura pueden utilizarse para encontrar subcadenas repetidas.
+
+Los grupos de captura se construyen encerrando entre paréntesis el patrón de expresión regular a capturar. En este caso, el objetivo es capturar una palabra formada por caracteres alfanuméricos, por lo que el grupo de captura será \w+ encerrado entre paréntesis: /(\w+)/.
+
+La subcadena que coincide con el grupo se guarda en una "variable" temporal, a la que se puede acceder dentro de la misma expresión regular utilizando una barra invertida y el número del grupo de captura (por ejemplo, \1). Los grupos de captura se numeran automáticamente por la posición de sus paréntesis de apertura (de izquierda a derecha), empezando por el 1.
+
+El siguiente ejemplo encuentra cualquier palabra que aparezca tres veces separada por un espacio:
+
+let repeatRegex = /(\w+) \1 \1/;
+repeatRegex.test(repeatStr); // Returns true
+repeatStr.match(repeatRegex); // Returns ["row row row", "row"]
+El uso del método .match() en una cadena devolverá un arreglo con la subcadena coincidente, junto con sus grupos capturados.
+
+
+--->Usa grupos de captura para buscar y reemplazar
+La búsqueda es útil. Sin embargo, puedes hacer que la búsqueda sea aún más poderosa si también cambias (o reemplazas) el texto con el que coincide.
+
+Puedes buscar y reemplazar texto en una cadena usando .replace() en una cadena. Las entradas para .replace() son primero el patrón de expresiones regulares que deseas buscar. El segundo parámetro es la cadena para reemplazar la coincidencia o una función para hacer algo.
+
+let wrongText = "The sky is silver.";
+let silverRegex = /silver/;
+wrongText.replace(silverRegex, "blue");
+La llamada replace devolverá la cadena The sky is blue..
+
+También puedes acceder a grupos de captura en la cadena de reemplazo con signos de dólar. ($).
+
+"Code Camp".replace(/(\w+)\s(\w+)/, '$2 $1');
+La llamada replace devolverá la cadena Camp Code.
+
+
+
+
