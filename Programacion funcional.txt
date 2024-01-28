@@ -1,0 +1,252 @@
+Comprende la terminología de la programación funcional
+El equipo de FCC tuvo un cambio de humor y ahora quiere dos tipos de té: té verde y té negro. Hecho general: Los cambios del estado de ánimo de los clientes son bastante concurrentes.
+
+Con esa información, tendremos que volver a visitar la función getTea del último desafío para manejar varias solicitudes de té. Podemos modificar getTea para aceptar una función como parámetro y así poder cambiar el tipo de té que prepara. Esto hace que getTea sea más flexible y le da al programador más control cuando las solicitudes del cliente cambian.
+
+Pero primero, cubramos alguna terminología de la programación funcional:
+
+Callbacks son las funciones que se deslizan o pasan a otra función para decidir la invocación de esa función. Es posible que las hayas visto pasar a otros métodos, por ejemplo en filter, la función callback le dice a JavaScript los criterios para filtrar un arreglo.
+
+Las funciones que pueden ser asignadas a una variable, pasadas a otra función o devueltas desde otra función como cualquier otro valor normal, se llaman funciones de primera clase. En JavaScript, todas las funciones son funciones de primera clase.
+
+Las funciones que toman una función como argumento, o devuelven una función como valor de retorno, se denominan funciones higher order.
+
+Cuando las funciones se pasan o se devuelven desde otra función, las funciones que se pasaron o devolvieron se pueden llamar lambda.
+
+---
+
+---
+Un poco sobre terminologia de programcion funcional:
+Callbacks son las funciones que se deslizan o pasan a otra función para decidir la invocación de esa función. Es posible que las hayas visto pasar a otros métodos, por ejemplo en filter, la función callback le dice a JavaScript los criterios para filtrar un arreglo.
+
+Las funciones que pueden ser asignadas a una variable, pasadas a otra función o devueltas desde otra función como cualquier otro valor normal, se llaman funciones de primera clase. En JavaScript, todas las funciones son funciones de primera clase.
+
+Las funciones que toman una función como argumento, o devuelven una función como valor de retorno, se denominan funciones higher order.
+
+Cuando las funciones se pasan o se devuelven desde otra función, las funciones que se pasaron o devolvieron se pueden llamar lambda.
+
+---
+Recuerda que en la programación funcional, cambiar o alterar cosas se denomina mutación, y el resultado es conocido como efecto secundario. Una función, idealmente, debe ser una función pura, lo que significa que no provoca ningún efecto secundario.
+
+---
+
+---
+Las funciones se consideran first class objects en JavaScript, lo que significa que pueden ser usados como cualquier otro objeto. Pueden guardarse en variables, almacenarse en un objeto o pasarse como argumentos de función.
+
+Empecemos con algunas funciones de arreglos simples, que son métodos en el prototipo de objetos del arreglo. En este ejercicio estamos utilizando Array.prototype.map() o más específicamente map.
+
+El método map iterará sobre cada elemento de un arreglo y devuelve un nuevo arreglo que contiene los resultados de llamar a la función callback en cada elemento. Esto lo hace sin mutar el arreglo original.
+
+Cuando se utiliza la función callback, se pasan tres argumentos. El primer argumento es el elemento actual que se está procesando. El segundo es el índice de ese elemento y el tercero es el arreglo al que se llamó el método map.
+
+A continuación se muestra un ejemplo con el método map en el arreglo users para devolver un nuevo arreglo que contiene solo los nombres de los usuarios como elementos. Para que sea más fácil, el ejemplo solo utiliza el primer argumento del callback.
+
+const users = [
+  { name: 'John', age: 34 },
+  { name: 'Amy', age: 20 },
+  { name: 'camperCat', age: 10 }
+];
+
+const names = users.map(user => user.name);
+console.log(names);
+La consola mostraría el valor [ 'John', 'Amy', 'camperCat' ].
+
+Aqui podemos ver una version de lo que hace el metodo map:
+Se puede acceder a la instancia de Array en el método myMap usando this.
+
+Array.prototype.myMap = function(callback) {
+  const newArray = [];
+  // Cambia solo el código debajo de esta línea
+  for (let i = 0; i < this.length;i++){
+    var elem = callback(this[i],i,this)
+    newArray.push(elem)
+  }
+  // Cambia solo el código encima de esta línea
+  return newArray;
+};
+let arr =[1,2,3]
+
+console.log(arr.myMap(elem =>(elem+1)))
+
+---
+
+---
+Usa el método de "filter" para extraer datos de un arreglo
+Otra función útil de los arreglos es Array.prototype.filter() o simplemente filter().
+
+filter Llama a una función sobre cada elemento del arreglo y devuelve un nuevo arreglo, conteniendo solo los elementos para los cuales la función devolvió un valor de verdadero - Es decir, un valor que devuelve true si paso al constructor Boolean(). En otras palabras, filtra el arreglo, basándose en la función que se le pasa. Al igual que map, hace esto sin necesidad de modificar el arreglo original.
+
+La función callback acepta tres argumentos. El primer argumento es el elemento actual que se está procesando. El segundo es el índice de ese elemento y el tercero es el arreglo sobre el que se llamó al método filter.
+
+A continuación se muestra un ejemplo en el que se utiliza el método filter en el arreglo users para devolver un nuevo arreglo que contiene sólo a los usuarios menores de 30 años. Para que sea más fácil, el ejemplo solo utiliza el primer argumento de la función callback.
+
+const users = [
+  { name: 'John', age: 34 },
+  { name: 'Amy', age: 20 },
+  { name: 'camperCat', age: 10 }
+];
+
+const usersUnder30 = users.filter(user => user.age < 30);
+console.log(usersUnder30); 
+La consola muestra el valor [ { name: 'Amy', age: 20 }, { name: 'camperCat', age: 10 } ].
+---
+Combina dos arreglos utilizando el método "concat"
+Concatenation significa unir elementos de extremo a extremo. JavaScript ofrece el método concat para cadenas y arreglos, que funciona de la misma manera. Para arreglos, el método es llamado desde un arreglo, un segundo arrelgo es proporcionado como argumento de concat, este se añadirá al final del primer arreglo. Devuelve un nuevo arreglo, sin mutar ninguno de los arreglos originales.
+---
+
+---
+Utiliza el método "reduce" para analizar datos
+Array.prototype.reduce() o simplemente reduce() es la operación más común de todas para arreglos en JavaScript. Se puede resolver casi cualquier problema de procesamiento de arreglos utilizando el método reduce.
+
+El método reduce permite formas más generales de procesamiento de arreglos y es posible mostrar que tanto filter como map pueden derivarse como aplicaciones especiales de reduce. El método reduce itera sobre cada elemento del arreglo y devuelve un solo valor (por ejemplo una cadena, número, objeto, arreglo). Esto se consigue mediante una función callback que se llama en cada iteración.
+
+La función callback acepta cuatro argumentos. El primer argumento se conoce como acumulador, que recibe el valor retornado de la función callback de la iteración anterior, el segundo es el elemento actual que se está procesando, el tercero es el índice de ese elemento y el cuarto es el arreglo sobre el que se llama a la función reduce.
+
+Además de la función callback, reduce tiene un parámetro adicional que toma un valor inicial para el acumulador. Si este segundo parámetro no se utiliza, entonces la primera iteración se omite y la segunda se pasa por el primer elemento del arreglo como acumulador.
+
+Mira a continuación un ejemplo con reduce en el arreglo users para devolver la suma de todas las edades de los usuarios. Para hacerlo más fácil, el ejemplo sólo utiliza el primer y segundo argumento.
+
+const users = [
+  { name: 'John', age: 34 },
+  { name: 'Amy', age: 20 },
+  { name: 'camperCat', age: 10 }
+];
+
+const sumOfAges = users.reduce((sum, user) => sum + user.age, 0);
+console.log(sumOfAges);
+La consola mostrará el valor 64.
+
+En otro ejemplo, se puede observar cómo un objeto puede ser devuelto con los nombres de los usuarios como propiedades con las edades como valores.
+
+const users = [
+  { name: 'John', age: 34 },
+  { name: 'Amy', age: 20 },
+  { name: 'camperCat', age: 10 }
+];
+
+const usersObj = users.reduce((obj, user) => {
+  obj[user.name] = user.age;
+  return obj;
+}, {});
+console.log(usersObj);
+La consola mostrará el valor { John: 34, Amy: 20, camperCat: 10 }.
+---
+
+---
+Ordena un arreglo alfabéticamente con el método sort
+El método sort ordena los elementos de un arreglo de acuerdo a la función callback.
+
+Por ejemplo:
+
+function ascendingOrder(arr) {
+  return arr.sort(function(a, b) {
+    return a - b;
+  });
+}
+
+ascendingOrder([1, 5, 2, 3, 4]);
+Esto devolvería el valor de [1, 2, 3, 4, 5].
+
+function reverseAlpha(arr) {
+  return arr.sort(function(a, b) {
+    return a === b ? 0 : a < b ? 1 : -1;
+  });
+}
+
+reverseAlpha(['l', 'h', 'z', 'b', 's']);
+Esto devolvería el valor de ['z', 's', 'l', 'h', 'b'].
+
+Por defecto, JavaScript ordena basándose en el valor "Unicode" de la cadena de caracteres, lo cual puede dar resultados inesperados. Por lo tanto, se recomienda proporcionar una función callback para especificar como se deben ordenar los elementos del arreglo. Cuando se proporciona dicha función callback, normalmente llamada compareFunction, los elementos del arreglo se ordenan de acuerdo al valor que devuelve la función compareFunction: Si compareFunction(a,b) devuelve un valor menor que 0 para dos elementos a y b, entonces a irá antes que b. Si compareFunction(a,b) devuelve un valor mayor a 0 para dos elementos a y b, entonces b irá antes que a. Si compareFunction(a,b) devuelve un valor igual a 0 para dos elementos a y b, entonces a y b se dejarán sin cambios.
+IMPORTANTE, EL METODO SORT MODIFICA EL ARREGLO ORIGINAL, SEDEBE COPIAR EL ARREGLO CON SLICE ANTES DE APLICAR EL METODO
+---
+
+---
+Divide una cadena en un arreglo utilizando el método "split"
+El método split divide una cadena en un arreglo de cadenas. Se necesita un argumento para el delimitador, el cual puede ser un carácter para separar la cadena o una expresión regular. Por ejemplo, si el delimitador es un espacio, se obtiene un arreglo de palabras y si el delimitador es una cadena vacía, se obtiene un arreglo de cada carácter en la cadena.
+
+Aquí hay dos ejemplos que dividen una cadena por espacios, luego otra por dígitos utilizando una expresión regular:
+
+const str = "Hello World";
+const bySpace = str.split(" ");
+
+const otherString = "How9are7you2today";
+const byDigits = otherString.split(/\d/);
+bySpace tendrá el valor ["Hello", "World"] y byDigits tendrá el valor ["How", "are", "you", "today"].
+
+Dado que las cadenas son inmutables, el método split facilita el trabajo con ellas.
+
+---
+Combina un arreglo en una cadena utilizando el método "join"
+El método join se utiliza para unir los elementos de un arreglo creando una cadena de texto. Se necesita un argumento para especificar el delimitador a utilizar para separar los elementos del arreglo en la cadena.
+
+Aquí hay un ejemplo:
+
+const arr = ["Hello", "World"];
+const str = arr.join(" ");
+str tendrá una cadena con valor Hello World.
+
+---
+Usa el método "every" para comprobar que cada elemento de un arreglo atienda un criterio
+El método every funciona con arreglos para comprobar si every element pasa una prueba en particular. Devuelve un valor booleano - true si todos los valores cumplen los criterios, false si no.
+
+Por ejemplo, el siguiente código comprobaría si cada elemento en el arreglo numbers es menor a 10:
+
+const numbers = [1, 5, 8, 0, 10, 11];
+
+numbers.every(function(currentValue) {
+  return currentValue < 10;
+});
+El método every devolvería false aquí.
+
+---
+
+---
+Usa el método "some" para comprobar si algún elemento en un arreglo cumple un criterio
+El método some funciona con arreglos para comprobar si algún elemento pasa una prueba en particular. Devuelve un valor booleano true si alguno de los valores cumple el criterio, false si no.
+
+Por ejemplo, el siguiente código comprobará si algún elemento en el arreglo numbers es menor que 10:
+
+const numbers = [10, 50, 8, 220, 110, 11];
+
+numbers.some(function(currentValue) {
+  return currentValue < 10;
+});
+El método some devolverá true.
+
+---
+
+---
+Introducción a la currificación y a la aplicación de funciones parciales
+La aridad de una función es el número de argumentos que requiere. Currificar una función significa convertir una función de N aridades a N funciones de 1 aridad.
+
+En otras palabras, reestructura una función, por lo que toma un argumento, luego devolverá otra función que toma el siguiente argumento, y así sucesivamente.
+
+A continuación un ejemplo:
+
+function unCurried(x, y) {
+  return x + y;
+}
+
+function curried(x) {
+  return function(y) {
+    return x + y;
+  }
+}
+
+const curried = x => y => x + y
+
+curried(1)(2)
+curried(1)(2) devolverá .3
+
+Esto es útil en tu programa si no puedes proporcionar todos los argumentos a una función al mismo tiempo. Puedes guardar la llamada a cada función dentro de una variable, la cual mantendrá la referencia de la función devuelta que toma el siguiente argumento cuando esté disponible. Aquí hay un ejemplo utilizando la función currificada del ejemplo anterior:
+
+const funcForY = curried(1);
+console.log(funcForY(2)); // 3
+Del mismo modo, la aplicación de una función parcial puede describirse como aplicar algunos argumentos a la función al mismo tiempo y devolviendo una función que se aplica a más argumentos. A continuación un ejemplo:
+
+function impartial(x, y, z) {
+  return x + y + z;
+}
+
+const partialFn = impartial.bind(this, 1, 2);
+partialFn(10); // 13

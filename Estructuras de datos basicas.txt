@@ -1,0 +1,41 @@
+el metodo '.push(elem)' aplicable a arrays, añadir un elemento al final del array,
+el metodo '.pop()' aplicable a arrays funcional exactamente igual a como se usa en python
+el metodo '.shift()' aplicable a arrays elimina el primer elemento del array
+el metodo '.unshift(elem)' aplicable a arrays, añade el elemento al principio del array (index = 0)
+
+splice()  este elimina los elementos en las posiciones indicadas en los parametros, y estos elementos se retornan para poder reutilizarlos en un nuevo arreglo. puede tomar hasta 3 parámetros, pero por ahora, nos centraremos sólo en los 2 primeros. Los primeros dos parámetros de splice() son enteros que representan índices, o posiciones, de elementos en el arreglo a la que splice() está siendo llamado. Y recuerda que los arreglos están indexados en cero, por lo que para indicar el primer elemento de un arreglo, usaríamos 0. El primer parámetro de splice() representa el índice del arreglo a partir del cual se empiezan a eliminar los elementos, mientras que el segundo parámetro indica el número de elementos a eliminar, si este no se especifica, se eliminaran los elementos desde la posicion indicada hasta el final del arreglo. puedes usar el tercer parámetro, compuesto por uno o varios elementos, para agregarlo al arreglo. Esto puede ser increíblemente útil para cambiar rápidamente un elemento, o un conjunto de elementos, por otro. los elementos eliminados se retornan como un arreglo nuevo
+
+El siguiente método que cubriremos es slice(),En lugar de modificar un arreglo, slice() copia o extrae un número determinado de elementos a un nuevo arreglo, dejando intacto el arreglo al que se llama. slice() toma sólo 2 parámetros: el primero es el índice en el que se inicia la extracción, y el segundo es el índice en el que se detiene la extracción (la extracción se producirá hasta el índice, pero sin incluir el elemento en este índice)
+
+Mientras que slice() nos permite ser selectivos sobre qué elementos de un arreglo copiar, entre otras tareas útiles, el nuevo operador de propagación de ES6 nos permite copiar fácilmente todos los elementos de una arreglo, en orden, con una sintaxis simple y altamente legible. La sintaxis de propagación simplemente se ve así: ...
+
+Ya que los arreglos pueden modificarse, o mutarse, en cualquier momento, no se puede garantizar dónde estará un dato concreto en un arreglo determinado, o si ese elemento sigue existiendo. Afortunadamente, JavaScript nos proporciona otro método incorporado, indexOf(), que nos permite comprobar rápida y fácilmente la presencia de un elemento en un arreglo. indexOf() toma un elemento como parámetro, y cuando lo llama, devuelve la posición, o índice, de ese elemento, o -1 si el elemento no existe en el arreglo.
+
+para eliminar un par clave-valor de un objeto podemos usar la palabra clave delete seguida del objeto y la propiedad a eliminar
+
+Ahora podemos agregar, modificar y eliminar claves de los objetos. Pero, ¿y si sólo queremos saber si un objeto tiene una propiedad específica? JavaScript nos proporciona dos maneras diferentes de hacerlo. Uno utiliza el método hasOwnProperty() y el otro utiliza la palabra clave in
+
+Tip:let arr = [1,2,3,4,5,6];
+arr = arr
+  .splice(3)
+  .concat([6,5,4])
+console.log(arr) <<<muestra: [4,5,6,6,5,4] con esto podemos aplicar varios metodos al mismo objeto sin llamar varias veces al mismo objeto
+
+En ocasiones, necesitas iterar todas las claves de un objeto. Puedes usar un bucle for...in para hacerlo. Un bucle for...in se ve así:
+
+const refrigerator = {
+  'milk': 1,
+  'eggs': 12,
+};
+
+for (const food in refrigerator) {
+  console.log(food, refrigerator[food]);
+}
+Este código saca por consola milk 1 y eggs 12, cada par clave-valor en su propia línea.
+
+También podemos generar un arreglo que contenga todas las claves almacenadas en un objeto utilizando el método Object.keys(). Este método toma un objeto como argumento y devuelve un arrelgo de cadenas que representan cada propiedad en el objeto.
+
+
+
+También podemos generar un arreglo que contenga todas las claves almacenadas en un objeto utilizando el método Object.keys(). Este método toma un objeto como argumento y devuelve un arrelgo de cadenas que representan cada propiedad en el objeto
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 

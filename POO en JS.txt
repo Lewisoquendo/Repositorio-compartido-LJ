@@ -1,0 +1,359 @@
+Object.prototype.property = var-->Dado que numLegs probablemente tendrán el mismo valor para todas las instancias de Bird, esencialmente tienes una variable duplicada numLegs dentro de cada instancia de Bird.
+
+Esto puede que no sea un problema cuando sólo hay dos instancias, pero imagina si hay millones de instancias. Eso sería un montón de variables duplicadas.
+
+Una mejor forma es utilizar el prototype de Bird. Las propiedades del prototype se comparten entre TODAS las instancias de Bird
+
+function Bird(name) {
+  this.name = name;  //own property
+}
+
+Bird.prototype.numLegs = 2; // prototype property
+
+let duck = new Bird("Donald");
+A continuación, se explica cómo se agregan las propiedades directas de duck al arreglo ownProps y las propiedades prototype al arreglo prototypeProps:
+
+let ownProps = [];
+let prototypeProps = [];
+
+for (let property in duck) {
+  if(duck.hasOwnProperty(property)) {
+    ownProps.push(property);
+  } else {
+    prototypeProps.push(property);
+  }
+}
+
+console.log(ownProps);
+console.log(prototypeProps);
+console.log(ownProps) debe mostrar ["name"] en la consola, y console.log(prototypeProps) debe mostrar ["numLegs"].
+
+
+
+---
+Hay una propiedad especial constructor ubicada en instancias de objeto duck y beagle que fueron creados en desafíos anteriores:
+
+let duck = new Bird();
+let beagle = new Dog();
+
+console.log(duck.constructor === Bird); 
+console.log(beagle.constructor === Dog);
+Ambas llamadas console.log devolverían true en la consola.
+
+Ten en cuenta que la propiedad constructor hace referencia a la función constructor que creo la instancia. La ventaja de la propiedad constructor es que es posible verificar esta propiedad para averiguar qué tipo de objeto es. Así es como se podría utilizar:
+
+function joinBirdFraternity(candidate) {
+  if (candidate.constructor === Bird) {
+    return true;
+  } else {
+    return false;
+  }
+}
+Nota: dado que la propiedad constructor se puede sobreescribir (se verá en los próximos dos desafíos), por lo general, es mejor utilizar el método instanceof para verificar el tipo de un objeto.
+
+---
+
+---
+Una forma más eficiente es establecer el prototype a un nuevo objeto que ya contenga las propiedades. De esta forma, las propiedades son añadidas todas a la vez:
+
+Bird.prototype = {
+  numLegs: 2, 
+  eat: function() {
+    console.log("nom nom nom");
+  },
+  describe: function() {
+    console.log("My name is " + this.name);
+  }
+};
+---
+
+---
+Hay un efecto secundario crucial de ajustar manualmente el prototipo a un nuevo objeto. ¡Elimina la propiedad constructor! Esta propiedad puede ser usada para verificar cuál función de constructor creó la instancia. Sin embargo, dado que la propiedad ha sido sobrescrita, ahora devuelve resultados falsos:
+
+duck.constructor === Bird;
+duck.constructor === Object;
+duck instanceof Bird;
+En orden, estas expresiones se evaluarían como false, true y true.
+
+Para solucionar esto, cada vez que un prototipo se establece de forma manual a un nuevo objeto, recuerda definir la propiedad constructor:
+
+Bird.prototype = {
+  constructor: Bird,
+  numLegs: 2,
+  eat: function() {
+    console.log("nom nom nom");
+  },
+  describe: function() {
+    console.log("My name is " + this.name); 
+  }
+};
+---
+
+---
+Entendiendo de dónde viene el prototipo de un objeto
+Así como las personas heredamos genes de nuestros padres, los objetos también heredan su prototype directamente de la función constructor que lo creó. Por ejemplo, aquí el constructor Bird crea el objeto duck:
+
+function Bird(name) {
+  this.name = name;
+}
+
+let duck = new Bird("Donald");
+duck hereda su prototype de la función constructor Bird. Puedes mostrar esta relación con el método isPrototypeOf:
+
+Bird.prototype.isPrototypeOf(duck);
+Este devolvería true.
+---
+
+---
+Comprende la cadena "prototype"
+Todos los objetos en JavaScript (con algunas excepciones) tienen un prototype. Además, el prototype de un objeto en sí mismo es un objeto.
+
+function Bird(name) {
+  this.name = name;
+}
+
+typeof Bird.prototype;
+Debido a que prototype es un objeto, ¡unprototype puede tener su propio prototype! En este caso, el prototype de Bird.prototype es Object.prototype:
+
+Object.prototype.isPrototypeOf(Bird.prototype);
+¿Por qué sería útil? Quizás recuerdes el método hasOwnProperty del desafío pasado:
+
+let duck = new Bird("Donald");
+duck.hasOwnProperty("name");
+El método hasOwnProperty se define en Object.prototype al cual se puede acceder con Bird.prototype, al que se puede acceder con duck. Este es un ejemplo de la cadena prototype. En esta cadena prototype, Bird es el supertype de duck mientras que duck es el subtype. Object es un supertype de Bird y duck. Object es un supertype de todos los objetos en JavaScript. Por lo tanto, cualquier objeto puede utilizar el método hasOwnProperty.
+---
+
+---
+Usa herencia para que no te repitas
+Hay un principio en la programación llamado No te repitas (Don't Repeat Yourself "DRY"). La razón por la que el código repetido es un problema es porque cualquier tipo de cambio requiere corregir código en múltiples lugares. Esto suele significar más trabajo para los programadores y más espacio para errores.
+
+Observa en el siguiente ejemplo como el método describe es compartido por Bird y Dog:
+
+Bird.prototype = {
+  constructor: Bird,
+  describe: function() {
+    console.log("My name is " + this.name);
+  }
+};
+
+Dog.prototype = {
+  constructor: Dog,
+  describe: function() {
+    console.log("My name is " + this.name);
+  }
+};
+El método describe se repite en dos lugares. El código se puede editar para seguir el principio DRY creando un supertype (o padre) llamado Animal:
+
+function Animal() { };
+
+Animal.prototype = {
+  constructor: Animal, 
+  describe: function() {
+    console.log("My name is " + this.name);
+  }
+};
+Dado que Animal incluye el método describe, puedes eliminarlo de Bird y Dog:
+
+Bird.prototype = {
+  constructor: Bird
+};
+
+Dog.prototype = {
+  constructor: Dog
+};
+---
+
+---
+Hereda comportamientos de un supertipo (supertype)
+En el desafío anterior, creaste un supertype llamado Animal que definía comportamientos compartidos por todos los animales:
+
+function Animal() { }
+Animal.prototype.eat = function() {
+  console.log("nom nom nom");
+};
+Este desafío y el siguiente cubrirán como reutilizar los métodos de Animal dentro de Bird y Dog sin tener que definirlos otra vez. Se utiliza una técnica llamada herencia. Este desafío cubre el primer paso: crear una instancia del supertype (o objecto padre). Ya conoces una forma de crear una instancia de Animal utilizando el operador new:
+
+let animal = new Animal();
+Hay algunas desventajas cuando se utiliza esta sintaxis para la herencia, pero son demasiado complejas para el alcance de este desafío. En su lugar, hay un enfoque alternativo que no tiene esas desventajas:
+
+let animal = Object.create(Animal.prototype);
+Object.create(obj) crea un objeto nuevo y establece obj como el prototype del nuevo objeto. Recuerda que prototype es como la "receta" para crear un objecto. Al establecer el prototype de animal como el prototype de Animal, estás dándole a la instancia animal la misma “receta" que a cualquier otra instancia de Animal.
+
+animal.eat();
+animal instanceof Animal;
+Aquí el método instanceof devolvería true.
+---
+
+---
+Establece el prototipo de hijo para una instancia del padre
+En el desafío anterior, viste el primer paso para heredar el comportamiento del supertipo (o padre) Animal: creando una nueva instancia de Animal.
+
+Este desafío cubre el siguiente paso: establecer el prototipo prototype del subtipo (o hijo) —en este caso, Bird— para ser una instancia de Animal.
+
+Bird.prototype = Object.create(Animal.prototype);
+Recuerda que el prototipo prototype es como la "receta" para crear un objeto. En cierto modo, la receta de Bird ahora incluye todos los "ingredientes" clave de Animal.
+
+let duck = new Bird("Donald");
+duck.eat();
+duck hereda todas las propiedades de Animal, incluyendo el método eat.
+---
+
+---
+Añade métodos después de la herencia
+Una función constructor que hereda su objeto prototype de una función constructor "supertype" puede seguir teniendo sus propios métodos además de los heredados.
+
+Por ejemplo, Bird es un constructor que hereda su prototype de Animal:
+
+function Animal() { }
+Animal.prototype.eat = function() {
+  console.log("nom nom nom");
+};
+function Bird() { }
+Bird.prototype = Object.create(Animal.prototype);
+Bird.prototype.constructor = Bird;
+Además de lo que se hereda de Animal, se quiere añadir un comportamiento que sea exclusivo de los objetos Bird. Aquí, Bird obtendrá una función fly(). Las funciones se añaden al prototype de Bird's del mismo modo que cualquier función constructor:
+
+Bird.prototype.fly = function() {
+  console.log("I'm flying!");
+};
+Ahora las instancias de Bird tendrán métodos tanto eat() como fly():
+
+let duck = new Bird();
+duck.eat();
+duck.fly();
+duck.eat() mostrará la cadena nom nom nom en consola, y duck.fly() mostrará la cadena I'm flying!.
+
+---
+
+---
+Sobrescribir métodos heredados
+En lecciones anteriores, aprendiste que un objeto puede heredar su comportamiento (métodos) de otro objeto al referenciar su prototype:
+
+ChildObject.prototype = Object.create(ParentObject.prototype);
+Luego, el ChildObject recibió sus propios métodos al encadenarlos a su prototype:
+
+ChildObject.prototype.methodName = function() {...};
+Es posible sobreescribir un método heredado. Se hace de la misma manera: agregando un método a ChildObject.prototype usando el mismo nombre de método que el que se va a sobrescribir. Aquí hay un ejemplo de Bird sobrescribiendo el método eat() heredado de Animal:
+
+function Animal() { }
+Animal.prototype.eat = function() {
+  return "nom nom nom";
+};
+function Bird() { }
+
+Bird.prototype = Object.create(Animal.prototype);
+
+Bird.prototype.eat = function() {
+  return "peck peck peck";
+};
+Si tienes una instancia de let duck = new Bird(); y llamas a duck.eat(), así es como JavaScript busca el método en la cadena prototype de duck:
+
+duck => ¿Está eat() definido aquí? No.
+Bird => ¿Está eat() definido aquí? => Sí. Ejecútala y detén la búsqueda.
+Animal => eat() también está definido, pero JavaScript dejó de buscar antes de llegar a este nivel.
+Object => JavaScript dejó de buscar antes de llegar a este nivel.
+
+---
+
+---
+Utiliza un "mixin" para añadir un comportamiento común entre objetos no relacionados
+Como ya has visto, el comportamiento se comparte mediante una herencia. Sin embargo, hay algunos casos en los que la herencia no es la mejor opción. La herencia no funciona bien con objetos que no están relacionados como Bird y Airplane. Ambos pueden volar pero un Bird no es un tipo de Airplane y viceversa.
+
+Para objetos no relacionados es mejor utilizar mixins. Un "mixin" permite a otros objetos utilizar una colección de funciones.
+
+let flyMixin = function(obj) {
+  obj.fly = function() {
+    console.log("Flying, wooosh!");
+  }
+};
+El flyMixin toma a cualquier objeto y le da el método fly.
+
+let bird = {
+  name: "Donald",
+  numLegs: 2
+};
+
+let plane = {
+  model: "777",
+  numPassengers: 524
+};
+
+flyMixin(bird);
+flyMixin(plane);
+Aquí bird y plane son pasados a flyMixin el cual después asigna la función fly a cada objeto. Ahora bird y plane pueden volar:
+
+bird.fly();
+plane.fly();
+La consola mostraría la cadena Flying, wooosh! dos veces, una por cada llamada a .fly().
+
+Ten en cuenta cómo el mixin permite que el mismo método fly sea reutilizado por los objetos bird y plane los cuales no están relacionados.
+---
+
+---
+Utiliza closures para evitar que las propiedades de un objeto se puedan modificar desde fuera
+En el desafío anterior, bird tenía una propiedad pública name. Se considera pública porque se puede acceder y cambiar fuera de la definición de bird.
+
+bird.name = "Duffy";
+Por lo tanto, cualquier parte de tu código puede cambiar fácilmente el nombre "name" de bird a cualquier valor. Piensa en cosas como contraseñas y cuentas bancarias que se pueden cambiar fácilmente por cualquier parte de tu base de código. Eso podría crear muchos problemas.
+
+La forma más sencilla de hacer privada esta propiedad pública es creando una variable dentro de la función constructora. Esto cambia el alcance de esa variable para que esté dentro de la función constructora versus disponible globalmente. De este modo, la variable solo puede ser accesible y cambiable por métodos que también estén dentro de la función constructora.
+
+function Bird() {
+  let hatchedEgg = 10;
+
+  this.getHatchedEggCount = function() { 
+    return hatchedEgg;
+  };
+}
+let ducky = new Bird();
+ducky.getHatchedEggCount();
+Aquí getHatchedEggCount es un método privilegiado, porque tiene acceso a la variable privada hatchedEgg. Esto es posible porque hatchedEgg está declarada en el mismo contexto que getHatchedEggCount. En JavaScript, una función siempre tiene acceso al contexto en el que se creó. A esto se le llama closure.
+---
+
+---
+Comprende las funciones que son invocadas inmediatamente (IIFE)
+Un patrón común en JavaScript es la ejecución de una función apenas declarada:
+
+(function () {
+  console.log("Chirp, chirp!");
+})();
+Esta es una expresión de función anónima que se ejecuta de inmediato y produce Chirp, chirp! inmediatamente.
+
+Ten en cuenta que la función no tiene nombre y que no se almacena en un valor. Los dos paréntesis () al final de la expresión de la función hacen que se ejecute o invoque de forma inmediata. Este patrón se conoce como una expresión de función inmediatamente invocada o IIFE (por sus siglas en inglés).
+
+---
+
+---
+Utiliza una IIFE para crear un módulo
+Una expresión de función inmediatamente invocada (IIFE) se utiliza a menudo para agrupar la funcionalidad relacionada en un solo objeto o módulo. Por ejemplo, en el desafío anterior se definieron dos "mixins":
+
+function glideMixin(obj) {
+  obj.glide = function() {
+    console.log("Gliding on the water");
+  };
+}
+function flyMixin(obj) {
+  obj.fly = function() {
+    console.log("Flying, wooosh!");
+  };
+}
+Podemos agrupar estos mixins en un módulo:
+
+let motionModule = (function () {
+  return {
+    glideMixin: function(obj) {
+      obj.glide = function() {
+        console.log("Gliding on the water");
+      };
+    },
+    flyMixin: function(obj) {
+      obj.fly = function() {
+        console.log("Flying, wooosh!");
+      };
+    }
+  }
+})();
+Ten en cuenta que has invocado una IIFE que devuelve un objeto motionModule. El objeto devuelto contiene todos los comportamientos de los mixins como propiedades del objeto. La ventaja del patrón del módulo es que todos los comportamientos de movimiento pueden ser empaquetados en un solo objeto que puede ser usado por otras partes del código. Así se debe utilizar:
+
+motionModule.glideMixin(duck);
+duck.glide();
